@@ -10,6 +10,12 @@ metadata:
 spec:
   replicas: 1
   roles: [controller, broker]
+  # capped for small hosts (4GB Docker VM) — raise for real clusters.
+  # In the v1 API these live on the node pool, not spec.kafka.
+  jvmOptions: { "-Xms": "256m", "-Xmx": "512m" }
+  resources:
+    requests: { cpu: 200m, memory: 640Mi }
+    limits: { memory: 1Gi }
   storage:
     type: jbod
     volumes:
@@ -29,11 +35,6 @@ metadata:
 spec:
   kafka:
     # version omitted → the operator's default Kafka version
-    # capped for small hosts (4GB Docker VM) — raise for real clusters
-    jvmOptions: { "-Xms": "256m", "-Xmx": "512m" }
-    resources:
-      requests: { cpu: 200m, memory: 640Mi }
-      limits: { memory: 1Gi }
     listeners:
       - name: plain
         port: 9092
