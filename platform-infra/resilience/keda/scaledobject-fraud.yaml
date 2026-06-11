@@ -1,0 +1,27 @@
+# Fraud Detection scales with the transaction stream: when consumer lag on the
+# account topics grows, KEDA adds replicas (1 → 5). The pattern generalizes to
+# any event-consuming service domain.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sd-fraud-detection
+  namespace: bian-risk-compliance
+spec:
+  scaleTargetRef:
+    name: sd-fraud-detection
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  cooldownPeriod: 120
+  triggers:
+    - type: kafka
+      metadata:
+        bootstrapServers: bian-kafka-kafka-bootstrap.kafka:9092
+        consumerGroup: sd-fraud-detection
+        topic: bian.accounts.current-account
+        lagThreshold: "200"
+    - type: kafka
+      metadata:
+        bootstrapServers: bian-kafka-kafka-bootstrap.kafka:9092
+        consumerGroup: sd-fraud-detection
+        topic: bian.accounts.savings-account
+        lagThreshold: "200"

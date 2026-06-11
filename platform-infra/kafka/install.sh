@@ -21,7 +21,8 @@ if [[ "${CONFIRM_KAFKA:-}" != "yes" ]]; then
 fi
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-STRIMZI_VERSION="${STRIMZI_VERSION:-0.45.0}"
+# 1.0.0+ required: older operators (≤0.45) cannot detect Kubernetes ≥1.33
+STRIMZI_VERSION="${STRIMZI_VERSION:-1.0.0}"
 
 kubectl create namespace kafka --dry-run=client -o yaml | kubectl apply -f -
 

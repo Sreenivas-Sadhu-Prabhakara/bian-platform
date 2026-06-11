@@ -28,7 +28,7 @@ metadata:
     strimzi.io/kraft: enabled
 spec:
   kafka:
-    version: 3.9.0
+    # version omitted → the operator's default Kafka version
     listeners:
       - name: plain
         port: 9092

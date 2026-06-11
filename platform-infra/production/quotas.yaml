@@ -1,0 +1,41 @@
+# Phase 5 — per-business-area resource governance. Quotas keep one area's
+# runaway workload from starving the bank; LimitRanges give unconfigured pods
+# sane defaults. Sized for the LOCAL cluster — multiply for production.
+apiVersion: v1
+kind: ResourceQuota
+metadata: { name: area-quota, namespace: bian-operations }
+spec:
+  hard: { requests.cpu: "2", requests.memory: 3Gi, limits.memory: 6Gi, pods: "80" }
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata: { name: area-quota, namespace: bian-risk-compliance }
+spec:
+  hard: { requests.cpu: "1", requests.memory: 1536Mi, limits.memory: 3Gi, pods: "40" }
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata: { name: area-quota, namespace: bian-sales-service }
+spec:
+  hard: { requests.cpu: "1", requests.memory: 1536Mi, limits.memory: 3Gi, pods: "50" }
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata: { name: area-quota, namespace: bian-reference-data }
+spec:
+  hard: { requests.cpu: "500m", requests.memory: 768Mi, limits.memory: 1536Mi, pods: "16" }
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata: { name: area-quota, namespace: bian-business-support }
+spec:
+  hard: { requests.cpu: "1", requests.memory: 1536Mi, limits.memory: 3Gi, pods: "48" }
+---
+apiVersion: v1
+kind: LimitRange
+metadata: { name: defaults, namespace: bian-operations }
+spec:
+  limits:
+    - type: Container
+      defaultRequest: { cpu: 50m, memory: 256Mi }
+      default: { memory: 512Mi }

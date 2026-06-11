@@ -1,0 +1,30 @@
+{
+  "realm": "bian",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "bian-api",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "bian-api-localdev",
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": ["*"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "bian-operations" },
+      { "name": "bian-risk-compliance" },
+      { "name": "bian-ops-analyst", "description": "fraud triage + KYC referrals + suspense queue" }
+    ]
+  },
+  "users": [
+    {
+      "username": "analyst",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "analyst-localdev" }],
+      "realmRoles": ["bian-ops-analyst", "bian-risk-compliance"]
+    }
+  ]
+}

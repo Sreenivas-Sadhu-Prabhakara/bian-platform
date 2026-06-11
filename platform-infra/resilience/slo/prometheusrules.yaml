@@ -1,0 +1,52 @@
+# SLOs + alerts per service domain (requires kube-prometheus-stack from
+# platform-infra/observability). Burn-rate alerting on the two SLOs that
+# matter for a banking API: availability and latency — plus the one alert
+# that must NEVER be silenced: payment suspense.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: bian-slos
+  namespace: monitoring
+  labels: { release: monitoring }
+spec:
+  groups:
+    - name: bian-availability
+      rules:
+        - record: bian:request_error_ratio:rate5m
+          expr: |
+            sum by (service_domain) (rate(http_server_requests_seconds_count{status=~"5.."}[5m]))
+            /
+            sum by (service_domain) (rate(http_server_requests_seconds_count[5m]))
+        - alert: BianAvailabilitySLOBurn
+          expr: bian:request_error_ratio:rate5m > 0.01   # 99% availability SLO
+          for: 10m
+          labels: { severity: page }
+          annotations:
+            summary: "{{ $labels.service_domain }} burning availability SLO (>1% 5xx)"
+
+    - name: bian-latency
+      rules:
+        - alert: BianLatencySLOBurn
+          expr: |
+            histogram_quantile(0.99,
+              sum by (service_domain, le) (rate(http_server_requests_seconds_bucket[5m]))) > 0.5
+          for: 10m
+          labels: { severity: ticket }
+          annotations:
+            summary: "{{ $labels.service_domain }} p99 above 500ms"
+
+    - name: bian-payments
+      rules:
+        - alert: PaymentSuspense
+          # FAILED_SUSPENSE = money in flight. Page immediately; never silence.
+          expr: increase(bian_payment_suspense_total[5m]) > 0
+          labels: { severity: page }
+          annotations:
+            summary: "Payment funds in SUSPENSE — debit succeeded, credit AND compensation failed"
+            runbook: "docs/runbooks/payment-suspense.md"
+        - alert: FraudAlertBacklog
+          expr: bian_fraud_open_alerts > 50
+          for: 30m
+          labels: { severity: ticket }
+          annotations:
+            summary: "Fraud investigation backlog exceeds 50 open alerts"

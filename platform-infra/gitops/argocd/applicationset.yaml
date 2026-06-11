@@ -1,0 +1,36 @@
+# One ArgoCD Application per sd-* repo — discovered straight from GitHub
+# (Netflix-style: the repo IS the unit of deployment). Namespace comes from
+# the chart's values; destination namespace is resolved per business area by
+# the deploy values committed in each repo.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bian-service-domains
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - scmProvider:
+        github:
+          organization: Sreenivas-Sadhu-Prabhakara   # user account acts as the org
+          allBranches: false
+        filters:
+          - repositoryMatch: ^sd-
+  template:
+    metadata:
+      name: "{{ .repository }}"
+      labels: { app.kubernetes.io/part-of: bian-platform }
+    spec:
+      project: default
+      source:
+        repoURL: "{{ .url }}"
+        targetRevision: main
+        path: helm
+      destination:
+        server: https://kubernetes.default.svc
+        # Phase 3 refinement: per-area destination via a cluster-decision
+        # generator; bian-operations is the largest area and the default.
+        namespace: bian-operations
+      syncPolicy:
+        automated: { prune: true, selfHeal: true }
+        syncOptions: ["CreateNamespace=false"]

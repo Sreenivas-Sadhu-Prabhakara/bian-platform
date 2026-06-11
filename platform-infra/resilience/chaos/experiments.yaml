@@ -1,0 +1,59 @@
+# Chaos experiments for the BIAN platform. Apply ONE at a time, watch Hubble +
+# Grafana, verify: circuit breakers open, saga compensation fires, alerts flow.
+---
+# 1. Kill a random deep-domain pod in operations — deployment should self-heal,
+#    in-flight requests should fail fast (Resilience4j), no suspense states.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: kill-operations-pod
+  namespace: chaos-mesh
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    namespaces: [bian-operations]
+    labelSelectors: { "app.kubernetes.io/part-of": "bian-platform" }
+  duration: "30s"
+---
+# 2. Add 500ms latency between Payment Execution and the account SDs — the
+#    saga must still complete or compensate cleanly, never suspend by timeout.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: slow-account-legs
+  namespace: chaos-mesh
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces: [bian-operations]
+    labelSelectors: { "app.kubernetes.io/name": "sd-payment-execution" }
+  delay: { latency: "500ms", jitter: "100ms" }
+  direction: to
+  target:
+    mode: all
+    selector:
+      namespaces: [bian-operations]
+      labelSelectors: { "bian/business-domain": "account-management" }
+  duration: "2m"
+---
+# 3. Partition fraud-detection from the account topics — KEDA should hold
+#    replicas, and on heal the consumer lag must drain with no lost alerts.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: partition-fraud-from-kafka
+  namespace: chaos-mesh
+spec:
+  action: partition
+  mode: all
+  selector:
+    namespaces: [bian-risk-compliance]
+    labelSelectors: { "app.kubernetes.io/name": "sd-fraud-detection" }
+  direction: both
+  target:
+    mode: all
+    selector:
+      namespaces: [kafka]
+  duration: "1m"
