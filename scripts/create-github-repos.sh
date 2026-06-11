@@ -23,7 +23,10 @@ for arg in "$@"; do
 done
 
 command -v gh >/dev/null || { echo "gh CLI required"; exit 1; }
-mapfile -t repos < <(find "${SERVICES_DIR}" -maxdepth 1 -type d -name 'sd-*' -exec basename {} \; | sort)
+# portable (macOS ships bash 3.2 — no mapfile)
+repos=()
+while IFS= read -r r; do repos+=("$r"); done \
+  < <(find "${SERVICES_DIR}" -maxdepth 1 -type d -name 'sd-*' -exec basename {} \; | sort)
 
 echo "Would create ${#repos[@]} service repos + bian-platform (${VISIBILITY#--})."
 [[ -n "${DRY}" ]] && { printf '  %s\n' bian-platform "${repos[@]:0:5}" "... (${#repos[@]} total)"; exit 0; }
