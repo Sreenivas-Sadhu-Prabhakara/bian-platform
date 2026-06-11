@@ -19,12 +19,20 @@
 - **Postgres staged, not built** (user-gated): DDL + seeds per deep repo, one-instance-per-SD `hydrate.sh` behind `CONFIRM_HYDRATE=yes`.
 - **Kafka staged, not built**: Strimzi install + flagship topics behind `CONFIRM_KAFKA=yes`.
 
-### Phase 2b (next)
+### Phase 2b-c ✅ (done — flagship counterparties deep)
 
-- Hydrate Postgres + wire JPA adapters (profile `postgres`) in the three deep domains — on explicit go-ahead
-- Install Kafka; swap logging → Kafka adapters; turn the HTTP bridges (`cheque-credit`, `kyc-result`) into consumers
-- Go deep on the flagship counterparties: **Fraud Detection** (consume `transaction.posted` + `cheque.lodged`, raise `bian.fraud.alerts`), **Know Your Customer** (consume `kyc.check.requested`, answer `kyc.assessment.*` — then flip `auto-approve=false`), **Payment Order / Payment Execution**
-- Consumer-driven contract tests between interacting SDs; runtime-vs-contract compatibility checks in CI
+Seven domains now graduated and deep. Added in this pass:
+
+- **Fraud Detection** — explainable scoring engine (LARGE_AMOUNT +70 / VELOCITY +50 / ROUND_AMOUNT +25, alert ≥ 60), sliding velocity window, `/evaluate` ingest bridge, alert investigation lifecycle (`OPEN → CONFIRMED_FRAUD | FALSE_POSITIVE`), `bian.fraud.alerts`.
+- **Know Your Customer** — screening pipeline (watchlist → REJECTED; missing docs / high-risk jurisdiction → REFERRED; analyst decisions with mandatory audit reason), watchlist maintenance, **HTTP callback in the account SDs' `kyc-result` shape** — the full KYC loop is wireable today.
+- **Payment Order** — intake validation with recorded rejection reasons, per-order limit, auto-submit hand-off via `ExecutionClient` port, cancel-only-before-submission, execution-result callback.
+- **Payment Execution** — the **debit-credit saga with compensation**: `COMPLETED` / `FAILED_DEBIT` / `FAILED_COMPENSATED` / `FAILED_SUSPENSE` (loud, never auto-retried), **idempotent on orderRef**, failure-injectable accounts simulator so every path is testable now.
+
+### Phase 2d (next)
+
+- **Open the gates** (user go-ahead): `CONFIRM_HYDRATE=yes` Postgres → wire JPA adapters; `CONFIRM_KAFKA=yes` Strimzi → swap logging adapters for Kafka producers/consumers
+- **Close the loops live:** accounts call KYC `/initiate` with their callback URL → flip `bian.kyc.auto-approve=false`; Payment Order's `ExecutionClient` → HTTP/Kafka against Payment Execution; Payment Execution's `AccountsClient` simulator → real account-SD adapter; account/cheque events → Fraud `/evaluate` consumer
+- Consumer-driven contract tests between the seven deep SDs; runtime-vs-contract checks in CI
 - Interest-accrual scheduler; sandbox scenario seeding
 
 ## Phase 3 — Security & delivery
