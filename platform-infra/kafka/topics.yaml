@@ -4,7 +4,7 @@
 # Local sizing: 3 partitions, RF 1. Phase 4 re-sizes for scale.
 ---
 # ── PAYMENTS flagship ────────────────────────────────────────────────────────
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.cheques.lifecycle
@@ -15,7 +15,7 @@ spec:
   replicas: 1
   config: { retention.ms: "604800000" }   # 7 days
 ---
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.payments.payment-order
@@ -26,7 +26,7 @@ spec:
   replicas: 1
   config: { retention.ms: "604800000" }
 ---
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.payments.payment-execution
@@ -38,7 +38,7 @@ spec:
   config: { retention.ms: "604800000" }
 ---
 # ── account transaction streams (feed both payments + fraud) ────────────────
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.accounts.current-account
@@ -49,7 +49,7 @@ spec:
   replicas: 1
   config: { retention.ms: "604800000" }
 ---
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.accounts.savings-account
@@ -61,7 +61,7 @@ spec:
   config: { retention.ms: "604800000" }
 ---
 # ── FRAUD flagship ───────────────────────────────────────────────────────────
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.fraud.alerts
@@ -73,7 +73,7 @@ spec:
   config: { retention.ms: "2592000000" }  # 30 days — alerts are case evidence
 ---
 # ── KYC flagship ─────────────────────────────────────────────────────────────
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.kyc.check
@@ -84,7 +84,7 @@ spec:
   replicas: 1
   config: { retention.ms: "2592000000" }
 ---
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: bian.kyc.assessment

@@ -1,6 +1,6 @@
 # Single-node KRaft Kafka for local development (Strimzi).
 # Production sizing (3+ brokers, rack awareness, tiered storage) is Phase 4.
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaNodePool
 metadata:
   name: dual-role
@@ -18,7 +18,7 @@ spec:
         size: 5Gi
         deleteClaim: true
 ---
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: Kafka
 metadata:
   name: bian-kafka
