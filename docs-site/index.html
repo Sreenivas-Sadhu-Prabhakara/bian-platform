@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BIAN Platform — 162 banking service domains on a Cilium mesh</title>
+  <meta name="description" content="End-to-end documentation for a BIAN-aligned core-banking microservice landscape: Netflix-style multi-repo, Spring Boot, Kubernetes, Cilium eBPF mesh." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="#top"><span class="brand-tick">▚</span> BIAN&nbsp;PLATFORM</a>
+  <nav class="nav">
+    <a href="#journey">End-to-end</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#explorer">162 Domains</a>
+    <a href="#deep">Deep builds</a>
+    <a href="#flows">Flagship flows</a>
+    <a href="#phases">Phases</a>
+    <a href="#run">Run it</a>
+  </nav>
+  <a class="gh" href="https://github.com/Sreenivas-Sadhu-Prabhakara/bian-platform" target="_blank" rel="noopener">GitHub ↗</a>
+</header>
+
+<main id="top">
+
+  <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <p class="hero-eyebrow">A CORE-BANKING SERVICE LANDSCAPE · BIAN-ALIGNED · NETFLIX-STYLE</p>
+    <h1>One bank.<br /><span class="accent">162 service domains.</span><br />One paved road.</h1>
+    <p class="hero-sub">The full BIAN service landscape generated as independent Spring&nbsp;Boot microservices — one git repo each — deployed on Kubernetes behind a sidecar-free <strong>Cilium eBPF mesh</strong>, with seven domains carrying real, tested banking logic.</p>
+    <div class="statline" id="statline">
+      <div class="stat"><b>162</b><span>service domains<br/>(one repo each)</span></div>
+      <div class="stat"><b>7</b><span>deep domains<br/>real rules + tests</span></div>
+      <div class="stat"><b>5</b><span>business areas<br/>= 5 namespaces</span></div>
+      <div class="stat"><b>0</b><span>sidecars<br/>(eBPF mesh)</span></div>
+      <div class="stat"><b>2</b><span>gates opened<br/>Postgres · Kafka</span></div>
+    </div>
+  </section>
+
+  <!-- ─── END-TO-END JOURNEY ───────────────────────────────────────────── -->
+  <section id="journey" class="band">
+    <h2><span class="no">01</span>The end-to-end, in seven moves</h2>
+    <p class="intro">Everything flows from one JSON file. Click each step.</p>
+    <div class="journey">
+      <div class="journey-steps" id="journey-steps"></div>
+      <div class="journey-detail" id="journey-detail"></div>
+    </div>
+  </section>
+
+  <!-- ─── ARCHITECTURE ─────────────────────────────────────────────────── -->
+  <section id="architecture" class="band band-alt">
+    <h2><span class="no">02</span>Architecture — click a layer</h2>
+    <div class="arch">
+      <div class="arch-diagram" id="arch-diagram">
+        <button class="arch-layer" data-layer="edge">🌐 Cilium Gateway <small>north-south · Gateway API · path /sd-&lt;domain&gt;</small></button>
+        <div class="arch-ns-row">
+          <button class="arch-layer ns" data-layer="ns">bian-reference-data <small>8</small></button>
+          <button class="arch-layer ns" data-layer="ns">bian-sales-service <small>36</small></button>
+          <button class="arch-layer ns" data-layer="ns">bian-operations <small>60</small></button>
+          <button class="arch-layer ns" data-layer="ns">bian-risk-compliance <small>24</small></button>
+          <button class="arch-layer ns" data-layer="ns">bian-business-support <small>34</small></button>
+        </div>
+        <button class="arch-layer" data-layer="mesh">⚡ Cilium eBPF mesh <small>identity policies · default-deny · Hubble · no sidecars</small></button>
+        <button class="arch-layer" data-layer="data">🗄 Postgres ×7 <small>one DB per deep domain — no shared banking database</small></button>
+        <button class="arch-layer" data-layer="events">📨 Kafka (Strimzi) <small>flagship topics: payments · fraud · KYC</small></button>
+      </div>
+      <div class="arch-detail" id="arch-detail"></div>
+    </div>
+    <div class="netflix">
+      <h3>The Netflix lineage, modernized</h3>
+      <div class="netflix-grid">
+        <div><span>Eureka</span>→ K8s DNS</div>
+        <div><span>Zuul</span>→ Cilium Gateway API</div>
+        <div><span>Ribbon</span>→ eBPF service LB</div>
+        <div><span>Hystrix</span>→ Resilience4j + mesh policy</div>
+        <div><span>Atlas</span>→ Prometheus + Hubble</div>
+        <div><span>Paved road</span>→ the generator</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EXPLORER ─────────────────────────────────────────────────────── -->
+  <section id="explorer" class="band">
+    <h2><span class="no">03</span>Service Domain Explorer</h2>
+    <p class="intro">Every BIAN service domain in the landscape — searchable. Each row is its own GitHub repo.</p>
+    <div class="explorer-controls">
+      <input type="search" id="ex-search" placeholder="Search 162 domains… (e.g. payment, fraud, loan)" aria-label="Search service domains" />
+      <select id="ex-area" aria-label="Filter by business area"><option value="">All business areas</option></select>
+      <select id="ex-pattern" aria-label="Filter by functional pattern"><option value="">All patterns</option></select>
+      <label class="ex-deep"><input type="checkbox" id="ex-deeponly" /> deep only</label>
+    </div>
+    <p class="ex-count" id="ex-count"></p>
+    <div class="ex-table-wrap">
+      <table class="ex-table">
+        <thead><tr><th>Service domain</th><th>Area / domain</th><th>Pattern</th><th>Control record</th><th>Repo</th></tr></thead>
+        <tbody id="ex-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─── DEEP DOMAINS ─────────────────────────────────────────────────── -->
+  <section id="deep" class="band band-alt">
+    <h2><span class="no">04</span>The seven deep domains</h2>
+    <p class="intro">Graduated from the template (<code>.bian-graduated</code>) — real rules, real tests, contracts owned per repo.</p>
+    <div class="deep-grid" id="deep-grid"></div>
+  </section>
+
+  <!-- ─── FLAGSHIP FLOWS ───────────────────────────────────────────────── -->
+  <section id="flows" class="band">
+    <h2><span class="no">05</span>Flagship flows — try them</h2>
+
+    <div class="flow">
+      <h3>💸 The payment saga <small>Payment Order → Payment Execution → accounts</small></h3>
+      <p>Money moves in two legs with compensation. Pick a scenario and step through:</p>
+      <div class="saga-controls">
+        <select id="saga-scenario">
+          <option value="happy">Happy path — both legs succeed</option>
+          <option value="debit">Debit fails — clean failure, nothing moved</option>
+          <option value="credit">Credit fails — compensation returns the money</option>
+          <option value="suspense">Credit AND compensation fail — SUSPENSE (ops!)</option>
+        </select>
+        <button class="btn" id="saga-step">Step ▸</button>
+        <button class="btn ghost" id="saga-reset">Reset</button>
+      </div>
+      <div class="saga-track" id="saga-track"></div>
+    </div>
+
+    <div class="flow">
+      <h3>🚨 Fraud scoring — live calculator</h3>
+      <p>The exact rules running in <code>sd-fraud-detection</code>. Move the dials:</p>
+      <div class="fraud-calc">
+        <div class="fraud-inputs">
+          <label>Amount (₹, paise below)
+            <input type="number" id="fr-amount" value="250000" min="1" step="1000" />
+            <small id="fr-amount-note"></small>
+          </label>
+          <label class="fr-check"><input type="checkbox" id="fr-velocity" /> &gt;5 activities in the last 10 min (velocity burst)</label>
+        </div>
+        <div class="fraud-result" id="fraud-result"></div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <h3>🪪 KYC decision pipeline</h3>
+      <p>Screening precedence in <code>sd-know-your-customer</code> — toggle the facts:</p>
+      <div class="kyc-calc">
+        <div class="kyc-inputs">
+          <label class="fr-check"><input type="checkbox" id="kyc-watchlist" /> customer is on the sanctions/PEP watchlist</label>
+          <label class="fr-check"><input type="checkbox" id="kyc-docs" checked /> ID + ADDRESS documents provided</label>
+          <label class="fr-check"><input type="checkbox" id="kyc-country" /> high-risk jurisdiction (KP / IR)</label>
+        </div>
+        <div class="kyc-result" id="kyc-result"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PHASES ───────────────────────────────────────────────────────── -->
+  <section id="phases" class="band band-alt">
+    <h2><span class="no">06</span>Phase roadmap &amp; status</h2>
+    <div class="timeline" id="timeline"></div>
+    <p class="legend"><span class="pill run">RUN</span> running/verified · <span class="pill staged">STAGED</span> scripted &amp; gated, one command to run · <span class="pill planned">PLANNED</span> designed in docs/PHASES.md</p>
+  </section>
+
+  <!-- ─── RUN IT ───────────────────────────────────────────────────────── -->
+  <section id="run" class="band">
+    <h2><span class="no">07</span>Run it yourself</h2>
+    <div class="run-grid">
+      <div class="run-card">
+        <h3>1 · Generate the landscape</h3>
+<pre data-copy><code>git clone https://github.com/Sreenivas-Sadhu-Prabhakara/bian-platform
+python3 bian-platform/generator/generate.py   # 162 repos from one catalog</code></pre>
+      </div>
+      <div class="run-card">
+        <h3>2 · Bring up the platform</h3>
+<pre data-copy><code># kind + Cilium (CNI + mesh + gateway) + namespaces + policies
+./bian-platform/scripts/bootstrap-cluster.sh</code></pre>
+      </div>
+      <div class="run-card">
+        <h3>3 · Open the gates</h3>
+<pre data-copy><code>CONFIRM_HYDRATE=yes ./bian-platform/platform-infra/postgres/hydrate.sh
+CONFIRM_KAFKA=yes   ./bian-platform/platform-infra/kafka/install.sh</code></pre>
+      </div>
+      <div class="run-card">
+        <h3>4 · Deploy a slice &amp; hit the mesh</h3>
+<pre data-copy><code>./bian-platform/scripts/build-all.sh  --only sd-current-account
+./bian-platform/scripts/deploy-all.sh --only sd-current-account
+kubectl -n bian-system port-forward svc/cilium-gateway-bian-gateway 18080:80 &amp;
+curl localhost:18080/sd-current-account/v1/service-domain</code></pre>
+      </div>
+    </div>
+    <p class="run-note">Rules of the road: never hand-edit generated boilerplate (fix the template, re-stamp) · the catalog is the API · deep repos graduate via <code>.bian-graduated</code> and are never re-stamped. Full ADRs in <a href="https://github.com/Sreenivas-Sadhu-Prabhakara/bian-platform/tree/main/docs/adr" target="_blank" rel="noopener">docs/adr</a>.</p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>▚ BIAN Platform — a learning/reference implementation. BIAN® is a registered trademark of the Banking Industry Architecture Network; this independent project models its service-landscape concepts.</p>
+  <p class="foot-dim">Built with the generator-first paved road · Spring Boot 3 / Java 21 · Kubernetes · Cilium · Strimzi · Postgres</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
