@@ -43,4 +43,12 @@ spec:
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/part-of: bian-platform
+    # Event backbone (gate 2): Kafka brokers in the kafka namespace
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kafka
+      toPorts:
+        - ports:
+            - port: "9092"
+              protocol: TCP
 {{- end }}

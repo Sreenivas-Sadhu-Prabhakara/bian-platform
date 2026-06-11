@@ -1,0 +1,21 @@
+# E2E proof deploy: sd-current-account wired to BOTH opened gates.
+#   helm upgrade --install sd-current-account ../../bian-services/sd-current-account/helm \
+#     -n bian-operations -f current-account-values.yaml
+image:
+  repository: bian/sd-current-account
+  tag: "0.2.0"
+
+springProfiles: "postgres,kafka"
+extraEnv:
+  - name: BIAN_DB_URL
+    value: jdbc:postgresql://pg-sd-current-account.bian-operations:5432/currentaccount
+  - name: BIAN_DB_USER
+    value: currentaccount
+  - name: BIAN_DB_PASSWORD          # localdev only — Vault via external-secrets in Phase 3
+    value: currentaccount-localdev
+  - name: BIAN_KAFKA_BOOTSTRAP
+    value: bian-kafka-kafka-bootstrap.kafka:9092
+
+resources:
+  requests: { cpu: 50m, memory: 320Mi }
+  limits: { memory: 640Mi }

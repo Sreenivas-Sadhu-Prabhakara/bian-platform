@@ -19,3 +19,24 @@ spec:
     - fromEntities:
         - host
         - remote-node
+---
+# Per-SD Postgres instances are platform endpoints too (caught by the
+# default-deny above) but ship no chart of their own — this grants exactly
+# their one legitimate flow: platform services → 5432.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: bian-allow-platform-to-postgres
+spec:
+  description: "BIAN service domains may reach the per-SD databases"
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/part-of: bian-platform
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/part-of: bian-platform
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
