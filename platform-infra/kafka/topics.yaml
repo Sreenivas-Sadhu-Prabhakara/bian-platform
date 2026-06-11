@@ -1,0 +1,96 @@
+# Flagship event topics (user decision, Phase 2a): PAYMENTS · FRAUD · KYC.
+# Topic naming: bian.<domain-group>.<subject>
+# Per-repo contracts (api/events.yaml in each service repo) bind to these names.
+# Local sizing: 3 partitions, RF 1. Phase 4 re-sizes for scale.
+---
+# ── PAYMENTS flagship ────────────────────────────────────────────────────────
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.cheques.lifecycle
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: payments }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "604800000" }   # 7 days
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.payments.payment-order
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: payments }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "604800000" }
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.payments.payment-execution
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: payments }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "604800000" }
+---
+# ── account transaction streams (feed both payments + fraud) ────────────────
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.accounts.current-account
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: fraud }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "604800000" }
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.accounts.savings-account
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: fraud }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "604800000" }
+---
+# ── FRAUD flagship ───────────────────────────────────────────────────────────
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.fraud.alerts
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: fraud }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "2592000000" }  # 30 days — alerts are case evidence
+---
+# ── KYC flagship ─────────────────────────────────────────────────────────────
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.kyc.check
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: kyc }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "2592000000" }
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: bian.kyc.assessment
+  namespace: kafka
+  labels: { strimzi.io/cluster: bian-kafka, bian/flagship: kyc }
+spec:
+  partitions: 3
+  replicas: 1
+  config: { retention.ms: "2592000000" }

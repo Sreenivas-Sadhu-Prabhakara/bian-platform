@@ -209,6 +209,13 @@ def main() -> int:
             "package": ctx["__PACKAGE__"],
         })
 
+        # Graduated repos (deep, hand/Fable-authored domain code) own ALL their
+        # files — the generator never touches them again, even with --force.
+        # See docs/adr/0004-graduation.md.
+        if (repo_dir / ".bian-graduated").exists():
+            skipped += 1
+            continue
+
         exists = repo_dir.exists()
         if exists and not args.force:
             skipped += 1

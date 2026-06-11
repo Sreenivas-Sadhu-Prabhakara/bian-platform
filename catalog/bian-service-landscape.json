@@ -108,6 +108,7 @@
             {"name": "Direct Debit Mandate", "functionalPattern": "Manage", "assetType": "Direct Debit Mandate"},
             {"name": "Cross Border Payment", "functionalPattern": "Process", "assetType": "Cross Border Payment"},
             {"name": "Correspondent Bank Management", "functionalPattern": "Manage", "assetType": "Correspondent Arrangement"},
+            {"name": "Cheque Processing", "functionalPattern": "Process", "assetType": "Cheque Transaction"},
             {"name": "Clearing Operations", "functionalPattern": "Operate", "assetType": "Clearing Cycle"},
             {"name": "Settlement Operations", "functionalPattern": "Operate", "assetType": "Settlement Instruction"}
           ]

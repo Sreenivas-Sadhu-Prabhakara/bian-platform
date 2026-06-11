@@ -12,12 +12,20 @@
 
 ## Phase 2 — Make the landscape real
 
-- **Domain depth:** replace in-memory stores with per-domain persistence (one DB per service; Postgres by default), real control-record schemas per functional pattern, pattern-specific action terms (Execute for Process/Operate, Evaluate for Assess, …)
-- **Event backbone:** Kafka; BIAN service-domain choreography (Payment Order → Payment Execution → Transaction Engine; Fraud Detection subscribing to card/payment streams)
-- **Cross-domain sagas** for the flagship journeys: customer onboarding, payment lifecycle, loan origination
-- **Contract-first, contract-per-repo:** every service owns its OpenAPI contract at `api/openapi.yaml` (shipped in Phase 1); Phase 2 deepens the schemas per domain and adds consumer-driven contract tests against them — no central contracts repo
-- Sandbox data sets + scenario seeding
-- *(This is the judgment-heavy generation pass — run it with Fable.)*
+### Phase 2a ✅ (done — the first judgment-heavy pass, run on Fable)
+
+- **Three domains deep** (graduated from the template, ADR-0004): **Current Account** (overdraft rules, KYC gating, block/close, fraud feed), **Savings Account** (no overdraft, min balance, monthly withdrawal cap, interest accrue/capitalize), **Cheque Processing** (check clearance: LODGED→PRESENTED→CLEARED|RETURNED state machine, stop orders, beneficiary credit instruction). Real contracts (`api/openapi.yaml` + `api/events.yaml` per repo), unit + boot tests green.
+- **Flagship event flows defined** (ADR-0005): payments, fraud, KYC — events flow through an `EventPublisher` port (logging adapter now, Kafka adapter later).
+- **Postgres staged, not built** (user-gated): DDL + seeds per deep repo, one-instance-per-SD `hydrate.sh` behind `CONFIRM_HYDRATE=yes`.
+- **Kafka staged, not built**: Strimzi install + flagship topics behind `CONFIRM_KAFKA=yes`.
+
+### Phase 2b (next)
+
+- Hydrate Postgres + wire JPA adapters (profile `postgres`) in the three deep domains — on explicit go-ahead
+- Install Kafka; swap logging → Kafka adapters; turn the HTTP bridges (`cheque-credit`, `kyc-result`) into consumers
+- Go deep on the flagship counterparties: **Fraud Detection** (consume `transaction.posted` + `cheque.lodged`, raise `bian.fraud.alerts`), **Know Your Customer** (consume `kyc.check.requested`, answer `kyc.assessment.*` — then flip `auto-approve=false`), **Payment Order / Payment Execution**
+- Consumer-driven contract tests between interacting SDs; runtime-vs-contract compatibility checks in CI
+- Interest-accrual scheduler; sandbox scenario seeding
 
 ## Phase 3 — Security & delivery
 
