@@ -37,3 +37,10 @@ route:
 networkPolicy:
   enabled: true
   monitoringNamespace: monitoring
+
+# Runtime wiring (Phase 2d gates): activate Spring profiles / inject env.
+#   springProfiles: "postgres,kafka"
+#   extraEnv:
+#     - { name: BIAN_DB_URL, value: "jdbc:postgresql://pg-<repo>:5432/<db>" }
+springProfiles: ""
+extraEnv: []

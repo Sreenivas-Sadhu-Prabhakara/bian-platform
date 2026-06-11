@@ -1,0 +1,15 @@
+# Single-node variant of cluster.yaml for resource-constrained hosts
+# (e.g. Docker Desktop at 4GB). Same contract: CNI-less + kube-proxy-less
+# for Cilium. Use cluster.yaml (3 nodes) when the host has 8GB+ for Docker.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: bian
+networking:
+  disableDefaultCNI: true
+  kubeProxyMode: none
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30080
+        hostPort: 8080
+        protocol: TCP
