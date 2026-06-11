@@ -1,0 +1,23 @@
+# North-south entry point for the whole BIAN landscape.
+# Cilium implements Gateway API natively (its per-node Envoy) — this is the
+# modern successor to Netflix Zuul / Spring Cloud Gateway at the edge.
+#
+# Every service domain attaches its own HTTPRoute (shipped in its Helm chart)
+# with path prefix /sd-<service-domain>, e.g. /sd-current-account.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: bian-gateway
+  namespace: bian-system
+spec:
+  gatewayClassName: cilium
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              bian-platform/routes-allowed: "true"

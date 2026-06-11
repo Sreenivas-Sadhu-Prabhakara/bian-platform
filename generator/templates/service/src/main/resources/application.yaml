@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: __ARTIFACT_ID__
+
+server:
+  port: 8080
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true   # /actuator/health/liveness + /readiness for K8s probes
+  info:
+    env:
+      enabled: true
+
+info:
+  bian:
+    serviceDomain: "__SD_NAME__"
+    businessArea: "__BUSINESS_AREA__"
+    businessDomain: "__BUSINESS_DOMAIN__"
+    functionalPattern: "__FUNCTIONAL_PATTERN__"
+    assetType: "__ASSET_TYPE__"
+    controlRecord: "__CONTROL_RECORD__"
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      serviceDomain:
+        slidingWindowSize: 20
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

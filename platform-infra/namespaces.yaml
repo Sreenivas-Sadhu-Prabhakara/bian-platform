@@ -1,0 +1,53 @@
+# One namespace per BIAN Business Area, plus bian-system for platform pieces.
+# The routes-allowed label lets each namespace's HTTPRoutes attach to the gateway.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bian-system
+  labels:
+    bian-platform/routes-allowed: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bian-reference-data
+  labels:
+    bian/business-area: reference-data
+    bian-platform/routes-allowed: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bian-sales-service
+  labels:
+    bian/business-area: sales-and-service
+    bian-platform/routes-allowed: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bian-operations
+  labels:
+    bian/business-area: operations-and-execution
+    bian-platform/routes-allowed: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bian-risk-compliance
+  labels:
+    bian/business-area: risk-and-compliance
+    bian-platform/routes-allowed: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bian-business-support
+  labels:
+    bian/business-area: business-support
+    bian-platform/routes-allowed: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring

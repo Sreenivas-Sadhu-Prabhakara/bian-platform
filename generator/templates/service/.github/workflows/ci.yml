@@ -1,0 +1,28 @@
+name: CI
+
+# Netflix-style: every service repo builds, tests, and packages independently.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Build & test
+        run: mvn -B verify
+
+      - name: Build container image
+        run: docker build -t bian/__ARTIFACT_ID__:${{ github.sha }} .
+
+      # Phase 3 adds: push to registry, image signing, SBOM, GitOps tag bump.

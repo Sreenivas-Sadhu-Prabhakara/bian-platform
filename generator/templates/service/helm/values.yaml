@@ -1,0 +1,39 @@
+# Default values for __ARTIFACT_ID__ (BIAN Service Domain: __SD_NAME__)
+
+image:
+  repository: bian/__ARTIFACT_ID__
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+# Namespace is set per BIAN business area by deploy-all.sh (helm -n <ns>).
+# These labels ride on every object for mesh policy + observability slicing.
+bian:
+  serviceDomain: "__SD_SLUG__"
+  businessArea: "__BUSINESS_AREA_SLUG__"
+  businessDomain: "__BUSINESS_DOMAIN_SLUG__"
+  functionalPattern: "__FUNCTIONAL_PATTERN_SLUG__"
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
+# Gateway API route (Cilium implements Gateway API natively — no ingress controller)
+route:
+  enabled: true
+  gatewayName: bian-gateway
+  gatewayNamespace: bian-system
+  # External path prefix; rewritten to / before hitting the service
+  pathPrefix: /__ARTIFACT_ID__
+
+# CiliumNetworkPolicy — default-deny posture, explicit allows
+networkPolicy:
+  enabled: true
+  monitoringNamespace: monitoring

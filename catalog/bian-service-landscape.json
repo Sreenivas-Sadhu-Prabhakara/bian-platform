@@ -1,0 +1,304 @@
+{
+  "version": "1.0.0",
+  "title": "BIAN-inspired Service Landscape",
+  "note": "Source of truth for the generator. Modelled on the BIAN Service Landscape (Business Areas -> Business Domains -> Service Domains). Edit / extend freely; re-run the generator to (re)stamp services. To track the full official ~320 Service Domains, paste additional entries under the right business domain.",
+  "functionalPatterns": ["Direct","Manage","Administer","Process","Operate","Maintain","Catalog","Develop","Design","Provide Advice","Monitor","Track","Fulfill","Transact","Register","Allocate","Analyze","Assess","Distribute","Plan"],
+  "businessAreas": [
+    {
+      "name": "Reference Data",
+      "businessDomains": [
+        {
+          "name": "Reference Data",
+          "serviceDomains": [
+            {"name": "Party Reference Data Directory", "functionalPattern": "Catalog", "assetType": "Party Reference Data"},
+            {"name": "Customer Reference Data Management", "functionalPattern": "Maintain", "assetType": "Customer Reference Data"},
+            {"name": "Product Directory", "functionalPattern": "Catalog", "assetType": "Product Reference Data"},
+            {"name": "Location Data Management", "functionalPattern": "Maintain", "assetType": "Location Reference Data"},
+            {"name": "Financial Market Reference Data", "functionalPattern": "Catalog", "assetType": "Market Reference Data"},
+            {"name": "Market Data Switch Operation", "functionalPattern": "Operate", "assetType": "Market Data Feed"},
+            {"name": "Information Provider Operation", "functionalPattern": "Operate", "assetType": "Information Feed"},
+            {"name": "Quoted Securities Service", "functionalPattern": "Catalog", "assetType": "Securities Reference Data"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sales and Service",
+      "businessDomains": [
+        {
+          "name": "Customer Management",
+          "serviceDomains": [
+            {"name": "Customer Relationship Management", "functionalPattern": "Direct", "assetType": "Customer Relationship"},
+            {"name": "Customer Profile", "functionalPattern": "Maintain", "assetType": "Customer Profile"},
+            {"name": "Customer Agreement", "functionalPattern": "Manage", "assetType": "Customer Agreement"},
+            {"name": "Customer Behavior Insights", "functionalPattern": "Analyze", "assetType": "Customer Behavior Model"},
+            {"name": "Customer Event History", "functionalPattern": "Maintain", "assetType": "Customer Event Log"},
+            {"name": "Customer Case Management", "functionalPattern": "Manage", "assetType": "Customer Case"},
+            {"name": "Customer Access Entitlement", "functionalPattern": "Administer", "assetType": "Access Entitlement"},
+            {"name": "Customer Position", "functionalPattern": "Manage", "assetType": "Customer Position"},
+            {"name": "Party Lifecycle Management", "functionalPattern": "Manage", "assetType": "Party Record"},
+            {"name": "Customer Tax Handling", "functionalPattern": "Process", "assetType": "Customer Tax Record"}
+          ]
+        },
+        {
+          "name": "Sales",
+          "serviceDomains": [
+            {"name": "Sales Planning", "functionalPattern": "Plan", "assetType": "Sales Plan"},
+            {"name": "Lead Opportunity Management", "functionalPattern": "Manage", "assetType": "Sales Lead"},
+            {"name": "Customer Offer", "functionalPattern": "Manage", "assetType": "Customer Offer"},
+            {"name": "Product Matching", "functionalPattern": "Process", "assetType": "Product Match"},
+            {"name": "Sales Product Agreement", "functionalPattern": "Manage", "assetType": "Sales Product Agreement"},
+            {"name": "Prospect Campaign Design", "functionalPattern": "Design", "assetType": "Prospect Campaign"}
+          ]
+        },
+        {
+          "name": "Marketing",
+          "serviceDomains": [
+            {"name": "Brand Management", "functionalPattern": "Manage", "assetType": "Brand Plan"},
+            {"name": "Advertising", "functionalPattern": "Operate", "assetType": "Advertising Campaign"},
+            {"name": "Marketing Campaign Design", "functionalPattern": "Design", "assetType": "Marketing Campaign"},
+            {"name": "Promotional Events", "functionalPattern": "Operate", "assetType": "Promotional Event"},
+            {"name": "Market Research", "functionalPattern": "Analyze", "assetType": "Market Research Study"},
+            {"name": "Customer Surveys", "functionalPattern": "Operate", "assetType": "Customer Survey"}
+          ]
+        },
+        {
+          "name": "Channels",
+          "serviceDomains": [
+            {"name": "Contact Center Operation", "functionalPattern": "Operate", "assetType": "Contact Center Session"},
+            {"name": "Contact Center Management", "functionalPattern": "Manage", "assetType": "Contact Center Plan"},
+            {"name": "Contact Routing", "functionalPattern": "Process", "assetType": "Contact Routing Record"},
+            {"name": "Branch Location Management", "functionalPattern": "Operate", "assetType": "Branch Operation"},
+            {"name": "E-Branch Operation", "functionalPattern": "Operate", "assetType": "Digital Branch Session"},
+            {"name": "ATM Network Management", "functionalPattern": "Operate", "assetType": "ATM Network"},
+            {"name": "Point Of Service", "functionalPattern": "Operate", "assetType": "POS Session"},
+            {"name": "Card Terminal Administration", "functionalPattern": "Administer", "assetType": "Card Terminal"},
+            {"name": "Servicing Mandate", "functionalPattern": "Manage", "assetType": "Servicing Mandate"},
+            {"name": "Servicing Order", "functionalPattern": "Process", "assetType": "Servicing Order"},
+            {"name": "Customer Workbench", "functionalPattern": "Operate", "assetType": "Servicing Session"},
+            {"name": "Advisor Workbench", "functionalPattern": "Operate", "assetType": "Advisory Session"},
+            {"name": "Channel Activity Analysis", "functionalPattern": "Analyze", "assetType": "Channel Activity Model"},
+            {"name": "Channel Activity History", "functionalPattern": "Maintain", "assetType": "Channel Activity Log"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Operations and Execution",
+      "businessDomains": [
+        {
+          "name": "Account Management",
+          "serviceDomains": [
+            {"name": "Current Account", "functionalPattern": "Fulfill", "assetType": "Current Account Facility"},
+            {"name": "Savings Account", "functionalPattern": "Fulfill", "assetType": "Savings Account Facility"},
+            {"name": "Deposit Account", "functionalPattern": "Fulfill", "assetType": "Deposit Account Facility"},
+            {"name": "Customer Billing", "functionalPattern": "Process", "assetType": "Customer Bill"},
+            {"name": "Reward Points Account", "functionalPattern": "Fulfill", "assetType": "Reward Points Facility"},
+            {"name": "Customer Tax Withholding", "functionalPattern": "Process", "assetType": "Tax Withholding Record"}
+          ]
+        },
+        {
+          "name": "Payments",
+          "serviceDomains": [
+            {"name": "Payment Order", "functionalPattern": "Process", "assetType": "Payment Order"},
+            {"name": "Payment Execution", "functionalPattern": "Process", "assetType": "Payment Transaction"},
+            {"name": "Payment Initiation", "functionalPattern": "Process", "assetType": "Payment Instruction"},
+            {"name": "ACH Operations", "functionalPattern": "Operate", "assetType": "ACH Batch"},
+            {"name": "Bulk Payments", "functionalPattern": "Process", "assetType": "Bulk Payment File"},
+            {"name": "Direct Debit Mandate", "functionalPattern": "Manage", "assetType": "Direct Debit Mandate"},
+            {"name": "Cross Border Payment", "functionalPattern": "Process", "assetType": "Cross Border Payment"},
+            {"name": "Correspondent Bank Management", "functionalPattern": "Manage", "assetType": "Correspondent Arrangement"},
+            {"name": "Clearing Operations", "functionalPattern": "Operate", "assetType": "Clearing Cycle"},
+            {"name": "Settlement Operations", "functionalPattern": "Operate", "assetType": "Settlement Instruction"}
+          ]
+        },
+        {
+          "name": "Cards",
+          "serviceDomains": [
+            {"name": "Card Authorization", "functionalPattern": "Process", "assetType": "Card Authorization"},
+            {"name": "Card Transaction", "functionalPattern": "Process", "assetType": "Card Transaction"},
+            {"name": "Card Collections", "functionalPattern": "Process", "assetType": "Card Collection Case"},
+            {"name": "Card Capture", "functionalPattern": "Process", "assetType": "Captured Card"},
+            {"name": "Issued Device Administration", "functionalPattern": "Administer", "assetType": "Issued Card"},
+            {"name": "Card Network Participant Services", "functionalPattern": "Operate", "assetType": "Card Network Membership"},
+            {"name": "Card Clearing", "functionalPattern": "Operate", "assetType": "Card Clearing Cycle"}
+          ]
+        },
+        {
+          "name": "Loans and Deposits",
+          "serviceDomains": [
+            {"name": "Consumer Loan", "functionalPattern": "Fulfill", "assetType": "Consumer Loan Facility"},
+            {"name": "Corporate Loan", "functionalPattern": "Fulfill", "assetType": "Corporate Loan Facility"},
+            {"name": "Mortgage Loan", "functionalPattern": "Fulfill", "assetType": "Mortgage Facility"},
+            {"name": "Syndicated Loan", "functionalPattern": "Fulfill", "assetType": "Syndicated Loan Facility"},
+            {"name": "Leasing", "functionalPattern": "Fulfill", "assetType": "Lease Facility"},
+            {"name": "Loan Disbursement", "functionalPattern": "Process", "assetType": "Disbursement Instruction"},
+            {"name": "Collateral Administration", "functionalPattern": "Administer", "assetType": "Collateral Asset"},
+            {"name": "Guarantee", "functionalPattern": "Fulfill", "assetType": "Guarantee Facility"},
+            {"name": "Letter Of Credit", "functionalPattern": "Fulfill", "assetType": "Letter Of Credit"}
+          ]
+        },
+        {
+          "name": "Trade Banking",
+          "serviceDomains": [
+            {"name": "Trade Finance", "functionalPattern": "Fulfill", "assetType": "Trade Finance Facility"},
+            {"name": "Documentary Collection", "functionalPattern": "Process", "assetType": "Documentary Collection"},
+            {"name": "Bank Drafts", "functionalPattern": "Fulfill", "assetType": "Bank Draft"},
+            {"name": "Factoring", "functionalPattern": "Fulfill", "assetType": "Factoring Facility"},
+            {"name": "Trade Services Customer Directory", "functionalPattern": "Catalog", "assetType": "Trade Counterparty"}
+          ]
+        },
+        {
+          "name": "Securities",
+          "serviceDomains": [
+            {"name": "Securities Position Keeping", "functionalPattern": "Maintain", "assetType": "Securities Position"},
+            {"name": "Custody Administration", "functionalPattern": "Administer", "assetType": "Custody Holding"},
+            {"name": "Corporate Action", "functionalPattern": "Process", "assetType": "Corporate Action Event"},
+            {"name": "Securities Settlement", "functionalPattern": "Process", "assetType": "Securities Settlement"},
+            {"name": "Securities Lending", "functionalPattern": "Fulfill", "assetType": "Securities Loan"},
+            {"name": "Trade Order Management", "functionalPattern": "Manage", "assetType": "Trade Order"},
+            {"name": "Investment Portfolio Management", "functionalPattern": "Manage", "assetType": "Investment Portfolio"},
+            {"name": "Investment Portfolio Analysis", "functionalPattern": "Analyze", "assetType": "Portfolio Analysis"},
+            {"name": "Brokered Product", "functionalPattern": "Fulfill", "assetType": "Brokered Product Facility"}
+          ]
+        },
+        {
+          "name": "Markets and Treasury",
+          "serviceDomains": [
+            {"name": "Financial Instrument Valuation", "functionalPattern": "Analyze", "assetType": "Instrument Valuation"},
+            {"name": "Quote Management", "functionalPattern": "Manage", "assetType": "Market Quote"},
+            {"name": "Trading Book Management", "functionalPattern": "Manage", "assetType": "Trading Book"},
+            {"name": "Position Management", "functionalPattern": "Manage", "assetType": "Market Position"},
+            {"name": "Currency Position Management", "functionalPattern": "Manage", "assetType": "Currency Position"},
+            {"name": "Treasury Position Management", "functionalPattern": "Manage", "assetType": "Treasury Position"},
+            {"name": "Asset Securitization", "functionalPattern": "Process", "assetType": "Securitization Pool"}
+          ]
+        },
+        {
+          "name": "Operations",
+          "serviceDomains": [
+            {"name": "Transaction Engine", "functionalPattern": "Operate", "assetType": "Transaction Ledger"},
+            {"name": "Reconciliation", "functionalPattern": "Process", "assetType": "Reconciliation Case"},
+            {"name": "Financial Message Gateway", "functionalPattern": "Operate", "assetType": "Financial Message"},
+            {"name": "Account Reconciliation", "functionalPattern": "Process", "assetType": "Account Reconciliation"},
+            {"name": "Currency Exchange", "functionalPattern": "Process", "assetType": "FX Deal"},
+            {"name": "Open Item Management", "functionalPattern": "Manage", "assetType": "Open Item"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Risk and Compliance",
+      "businessDomains": [
+        {
+          "name": "Credit Risk",
+          "serviceDomains": [
+            {"name": "Customer Credit Rating", "functionalPattern": "Assess", "assetType": "Credit Rating"},
+            {"name": "Credit Management", "functionalPattern": "Manage", "assetType": "Credit Facility Risk"},
+            {"name": "Credit Risk Models", "functionalPattern": "Develop", "assetType": "Credit Risk Model"},
+            {"name": "Collateral Asset Administration", "functionalPattern": "Administer", "assetType": "Collateral Valuation"},
+            {"name": "Limit And Exposure Management", "functionalPattern": "Manage", "assetType": "Exposure Limit"}
+          ]
+        },
+        {
+          "name": "Market and Operational Risk",
+          "serviceDomains": [
+            {"name": "Market Risk Models", "functionalPattern": "Develop", "assetType": "Market Risk Model"},
+            {"name": "Operational Risk Models", "functionalPattern": "Develop", "assetType": "Operational Risk Model"},
+            {"name": "Liquidity Risk Models", "functionalPattern": "Develop", "assetType": "Liquidity Risk Model"},
+            {"name": "Liquidity Management", "functionalPattern": "Manage", "assetType": "Liquidity Position"},
+            {"name": "Asset Liability Management", "functionalPattern": "Manage", "assetType": "ALM Position"}
+          ]
+        },
+        {
+          "name": "Financial Crime",
+          "serviceDomains": [
+            {"name": "Fraud Detection", "functionalPattern": "Monitor", "assetType": "Fraud Alert"},
+            {"name": "Fraud Diagnosis", "functionalPattern": "Assess", "assetType": "Fraud Case"},
+            {"name": "Fraud Resolution", "functionalPattern": "Process", "assetType": "Fraud Resolution"},
+            {"name": "Financial Crime Models", "functionalPattern": "Develop", "assetType": "Financial Crime Model"},
+            {"name": "Know Your Customer", "functionalPattern": "Process", "assetType": "KYC Assessment"},
+            {"name": "Anti Money Laundering", "functionalPattern": "Monitor", "assetType": "AML Alert"},
+            {"name": "Case Management Financial Crime", "functionalPattern": "Manage", "assetType": "Financial Crime Case"}
+          ]
+        },
+        {
+          "name": "Compliance",
+          "serviceDomains": [
+            {"name": "Regulatory Compliance", "functionalPattern": "Manage", "assetType": "Compliance Requirement"},
+            {"name": "Regulatory Reporting", "functionalPattern": "Process", "assetType": "Regulatory Report"},
+            {"name": "Guideline Compliance", "functionalPattern": "Monitor", "assetType": "Compliance Check"},
+            {"name": "Information Security", "functionalPattern": "Administer", "assetType": "Security Policy"},
+            {"name": "Internal Audit", "functionalPattern": "Assess", "assetType": "Audit Engagement"},
+            {"name": "Records Management", "functionalPattern": "Maintain", "assetType": "Record Archive"},
+            {"name": "Continuity Planning", "functionalPattern": "Plan", "assetType": "Continuity Plan"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Business Support",
+      "businessDomains": [
+        {
+          "name": "Finance",
+          "serviceDomains": [
+            {"name": "Financial Control", "functionalPattern": "Manage", "assetType": "Financial Control Record"},
+            {"name": "Financial Statements", "functionalPattern": "Process", "assetType": "Financial Statement"},
+            {"name": "Management Accounting", "functionalPattern": "Process", "assetType": "Management Account"},
+            {"name": "Corporate Treasury", "functionalPattern": "Manage", "assetType": "Treasury Plan"},
+            {"name": "Capital Management", "functionalPattern": "Manage", "assetType": "Capital Plan"},
+            {"name": "Tax Management", "functionalPattern": "Process", "assetType": "Corporate Tax Record"}
+          ]
+        },
+        {
+          "name": "Human Resources",
+          "serviceDomains": [
+            {"name": "Employee Data Management", "functionalPattern": "Maintain", "assetType": "Employee Record"},
+            {"name": "Employee Assignment", "functionalPattern": "Manage", "assetType": "Employee Assignment"},
+            {"name": "Workforce Training", "functionalPattern": "Operate", "assetType": "Training Program"},
+            {"name": "Employee Certification", "functionalPattern": "Administer", "assetType": "Certification Record"},
+            {"name": "Employee Payroll", "functionalPattern": "Process", "assetType": "Payroll Run"},
+            {"name": "Employee Benefits", "functionalPattern": "Administer", "assetType": "Benefit Enrollment"},
+            {"name": "Workforce Development", "functionalPattern": "Develop", "assetType": "Workforce Plan"}
+          ]
+        },
+        {
+          "name": "Corporate Services",
+          "serviceDomains": [
+            {"name": "Building Management", "functionalPattern": "Operate", "assetType": "Facility"},
+            {"name": "Corporate Insurance", "functionalPattern": "Administer", "assetType": "Insurance Policy"},
+            {"name": "Corporate Relationship", "functionalPattern": "Manage", "assetType": "Corporate Relationship"},
+            {"name": "Corporate Communications", "functionalPattern": "Operate", "assetType": "Communication Campaign"},
+            {"name": "Procurement", "functionalPattern": "Process", "assetType": "Purchase Order"},
+            {"name": "Document Management", "functionalPattern": "Maintain", "assetType": "Document"},
+            {"name": "Archive Services", "functionalPattern": "Maintain", "assetType": "Archive Item"},
+            {"name": "Knowledge Exchange", "functionalPattern": "Operate", "assetType": "Knowledge Article"},
+            {"name": "Legal Services", "functionalPattern": "Provide Advice", "assetType": "Legal Matter"}
+          ]
+        },
+        {
+          "name": "Technology and Operations",
+          "serviceDomains": [
+            {"name": "Systems Administration", "functionalPattern": "Administer", "assetType": "System Configuration"},
+            {"name": "Platform Operations", "functionalPattern": "Operate", "assetType": "Platform Service"},
+            {"name": "Network Operations", "functionalPattern": "Operate", "assetType": "Network Service"},
+            {"name": "Software Deployment", "functionalPattern": "Process", "assetType": "Software Release"},
+            {"name": "IT Standards And Guidelines", "functionalPattern": "Catalog", "assetType": "IT Standard"},
+            {"name": "Site Operations", "functionalPattern": "Operate", "assetType": "Site Operation"},
+            {"name": "Service Desk", "functionalPattern": "Operate", "assetType": "Service Ticket"}
+          ]
+        },
+        {
+          "name": "Business Command and Control",
+          "serviceDomains": [
+            {"name": "Enterprise Architecture", "functionalPattern": "Design", "assetType": "Architecture Blueprint"},
+            {"name": "Business Development", "functionalPattern": "Plan", "assetType": "Business Development Plan"},
+            {"name": "Business Risk Models", "functionalPattern": "Develop", "assetType": "Business Risk Model"},
+            {"name": "Enterprise Planning", "functionalPattern": "Plan", "assetType": "Enterprise Plan"},
+            {"name": "Corporate Strategy", "functionalPattern": "Direct", "assetType": "Strategy Directive"}
+          ]
+        }
+      ]
+    }
+  ]
+}

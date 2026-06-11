@@ -1,0 +1,19 @@
+# Local K8s cluster for the BIAN platform (kind).
+# CNI and kube-proxy are disabled: Cilium replaces both (eBPF, sidecar-free mesh).
+#
+#   kind create cluster --config cluster.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: bian
+networking:
+  disableDefaultCNI: true     # Cilium is the CNI
+  kubeProxyMode: none         # Cilium eBPF kube-proxy replacement
+nodes:
+  - role: control-plane
+    # Expose the Cilium Gateway on localhost for easy curl access
+    extraPortMappings:
+      - containerPort: 30080
+        hostPort: 8080
+        protocol: TCP
+  - role: worker
+  - role: worker

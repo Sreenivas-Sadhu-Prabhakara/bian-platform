@@ -1,0 +1,182 @@
+# Design-time API contract for this service domain — owned BY this repo
+# (contract-per-repo, Netflix-style; no central contracts repo).
+# The runtime spec served at /v3/api-docs must stay compatible with this file;
+# Phase 2 adds contract tests that enforce it.
+openapi: 3.0.3
+info:
+  title: "__SD_NAME__ — BIAN Semantic API"
+  description: >
+    BIAN Service Domain '__SD_NAME__' (functional pattern: __FUNCTIONAL_PATTERN__,
+    business area: __BUSINESS_AREA__) operating on the
+    '__CONTROL_RECORD__' control record.
+  version: 0.1.0
+servers:
+  - url: /
+    description: direct (in-cluster)
+  - url: /__ARTIFACT_ID__
+    description: through the platform gateway (prefix is rewritten away)
+tags:
+  - name: service-domain
+  - name: control-record
+
+paths:
+  /v1/service-domain:
+    get:
+      tags: [service-domain]
+      operationId: getServiceDomain
+      summary: Service domain metadata
+      responses:
+        "200":
+          description: SD identity and BIAN classification
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceDomainInfo"
+
+  /v1/__CR_SLUG__/initiate:
+    post:
+      tags: [control-record]
+      operationId: initiate
+      summary: "BIAN action term: Initiate"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Properties"
+      responses:
+        "201":
+          description: Control record created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlRecord"
+
+  /v1/__CR_SLUG__:
+    get:
+      tags: [control-record]
+      operationId: list
+      summary: "BIAN action term: Retrieve (collection)"
+      responses:
+        "200":
+          description: All control records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ControlRecord"
+
+  /v1/__CR_SLUG__/{crId}/retrieve:
+    get:
+      tags: [control-record]
+      operationId: retrieve
+      summary: "BIAN action term: Retrieve"
+      parameters:
+        - $ref: "#/components/parameters/CrId"
+      responses:
+        "200":
+          description: The control record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlRecord"
+        "404":
+          description: Unknown control record id
+
+  /v1/__CR_SLUG__/{crId}/update:
+    put:
+      tags: [control-record]
+      operationId: update
+      summary: "BIAN action term: Update"
+      parameters:
+        - $ref: "#/components/parameters/CrId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Properties"
+      responses:
+        "200":
+          description: Updated control record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlRecord"
+        "404":
+          description: Unknown control record id
+
+  /v1/__CR_SLUG__/{crId}/control:
+    put:
+      tags: [control-record]
+      operationId: control
+      summary: "BIAN action term: Control (suspend | resume | terminate)"
+      parameters:
+        - $ref: "#/components/parameters/CrId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ControlAction"
+      responses:
+        "200":
+          description: Control applied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlRecord"
+        "400":
+          description: Unknown control action
+        "404":
+          description: Unknown control record id
+
+components:
+  parameters:
+    CrId:
+      name: crId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Control record identifier (CR-…)
+
+  schemas:
+    ServiceDomainInfo:
+      type: object
+      properties:
+        serviceDomain: { type: string, example: "__SD_NAME__" }
+        businessArea: { type: string, example: "__BUSINESS_AREA__" }
+        businessDomain: { type: string, example: "__BUSINESS_DOMAIN__" }
+        functionalPattern: { type: string, example: "__FUNCTIONAL_PATTERN__" }
+        assetType: { type: string, example: "__ASSET_TYPE__" }
+        controlRecord: { type: string, example: "__CONTROL_RECORD__" }
+        version: { type: string }
+        phase: { type: string }
+
+    ControlRecord:
+      type: object
+      properties:
+        controlRecordId: { type: string, example: "CR-7f3a…" }
+        controlRecordType: { type: string, example: "__CONTROL_RECORD__" }
+        status:
+          type: string
+          enum: [INITIATED, ACTIVE, SUSPENDED, TERMINATED]
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        properties:
+          $ref: "#/components/schemas/Properties"
+
+    Properties:
+      type: object
+      additionalProperties: true
+      description: Free-form domain properties (Phase 2 replaces with the real per-domain schema)
+
+    ControlAction:
+      type: object
+      required: [action]
+      properties:
+        action:
+          type: string
+          enum: [suspend, resume, terminate]

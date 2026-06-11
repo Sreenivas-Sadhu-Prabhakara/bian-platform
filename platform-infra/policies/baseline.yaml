@@ -1,0 +1,21 @@
+# Cluster-wide mesh baseline: default-deny in every BIAN namespace.
+# Per-service CiliumNetworkPolicies (shipped in each Helm chart) then open
+# exactly: gateway ingress, intra-platform calls, Prometheus scrape, DNS.
+#
+# Applied per-namespace rather than CiliumClusterwideNetworkPolicy so the
+# platform namespaces stay self-contained and Phase 3 can tighten per area.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: bian-default-deny
+spec:
+  description: "Default-deny all traffic to BIAN service-domain workloads"
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/part-of: bian-platform
+  ingressDeny: []
+  ingress:
+    # Health/readiness probes from the kubelet are host traffic
+    - fromEntities:
+        - host
+        - remote-node
