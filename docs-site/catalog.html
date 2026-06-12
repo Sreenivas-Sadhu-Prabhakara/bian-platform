@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Master Catalog — BIAN Platform · 162 Service Domains</title>
+  <meta name="description" content="The interactive master catalog: every service domain of the BIAN platform explained — purpose, use cases, banking classification, and backend integrations. Set in the manner of a bank that has stood the test of time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital@0;1&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="catalog.css" />
+</head>
+<body>
+
+<header class="masthead">
+  <a class="mast-name" href="index.html">BIAN <span class="amp">&amp;</span> PLATFORM</a>
+  <span class="mast-est">Master Catalog · est. MMXXVI</span>
+  <nav class="mast-links">
+    <a href="index.html">The Platform</a>
+    <a href="https://github.com/Sreenivas-Sadhu-Prabhakara/bian-platform/blob/main/MASTER-CATALOG.md" target="_blank" rel="noopener">Printable Edition</a>
+    <a href="https://github.com/Sreenivas-Sadhu-Prabhakara/bian-platform" target="_blank" rel="noopener">Repository</a>
+  </nav>
+</header>
+
+<section class="front">
+  <div class="front-rule"><span class="front-orn">❦ ❦ ❦</span></div>
+  <h1>The Master Catalog</h1>
+  <p class="sub">Being a complete account of every service domain in the landscape — its purpose, its uses in the business of banking, the line of banking it serves, and the houses with which it transacts.</p>
+  <p class="counts" id="front-counts"></p>
+</section>
+
+<div class="desk" role="search">
+  <input type="search" id="q" placeholder="Search the catalog… (e.g. payment, fraud, loan, custody)" aria-label="Search the catalog" />
+  <select id="f-area" aria-label="Business area"><option value="">All business areas</option></select>
+  <select id="f-kind" aria-label="Banking type"><option value="">All banking types</option></select>
+  <label class="toggle"><input type="checkbox" id="f-deep" /> Deep builds only</label>
+  <span class="desk-count" id="count"></span>
+</div>
+
+<main class="ledger" id="ledger"></main>
+
+<footer class="colophon">
+  <span class="orn">❦</span>
+  Compiled from the service registry by the platform's own generator; the printable edition is kept in the repository.
+  BIAN® is a registered trademark of the Banking Industry Architecture Network — this independent work models its service-landscape concepts.
+</footer>
+
+<script src="catalog-data.js"></script>
+<script src="catalog.js"></script>
+</body>
+</html>
