@@ -2,7 +2,9 @@
 
 The umbrella repo for a **BIAN-aligned core-banking microservice landscape** — Netflix-style (one repo per service), Java 21 / Spring Boot 3, deployed on Kubernetes with a **Cilium eBPF service mesh**.
 
-> **Phase 1 — full landscape, shallow.** All **161 BIAN Service Domains** are generated as independent, deployable microservices with real REST APIs over in-memory stores. Depth (persistence, events, domain logic) is Phase 2 — see [docs/PHASES.md](docs/PHASES.md).
+> 📒 **[MASTER CATALOG](MASTER-CATALOG.md)** — every service domain explained: what it is, 3+ use cases, banking type, backend providers it integrates with, and how to run it. 🌐 **[Interactive docs](https://sreenivas-sadhu-prabhakara.github.io/bian-platform/)**.
+
+All **162 BIAN Service Domains** are generated as independent, deployable microservices (7 carry deep, tested domain logic; see [docs/PHASES.md](docs/PHASES.md)). Every repo enforces its own API + event contracts via a contract-test suite that fails the build on drift.
 
 ## What's here
 

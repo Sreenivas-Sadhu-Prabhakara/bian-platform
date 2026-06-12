@@ -1,0 +1,10 @@
+# Event contract — owned by THIS repo (contract-per-repo).
+# Topic catalog: bian-platform/platform-infra/kafka/topics.yaml
+#
+# Phase 1 (shallow): this service domain publishes and consumes no events yet.
+# Deepening this domain (see ADR-0004 graduation) replaces this file with its
+# real event surface — the contract test asserts this file stays parseable
+# and truthful either way.
+service: __ARTIFACT_ID__
+publishes: []
+consumes: []
