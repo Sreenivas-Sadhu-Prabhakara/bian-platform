@@ -28,11 +28,23 @@ Seven domains now graduated and deep. Added in this pass:
 - **Payment Order** — intake validation with recorded rejection reasons, per-order limit, auto-submit hand-off via `ExecutionClient` port, cancel-only-before-submission, execution-result callback.
 - **Payment Execution** — the **debit-credit saga with compensation**: `COMPLETED` / `FAILED_DEBIT` / `FAILED_COMPENSATED` / `FAILED_SUSPENSE` (loud, never auto-retried), **idempotent on orderRef**, failure-injectable accounts simulator so every path is testable now.
 
-### Phase 2d (next)
+### Phase 2d ✅ (gates opened + E2E proven on a live cluster)
 
-- **Open the gates** (user go-ahead): `CONFIRM_HYDRATE=yes` Postgres → wire JPA adapters; `CONFIRM_KAFKA=yes` Strimzi → swap logging adapters for Kafka producers/consumers
-- **Close the loops live:** accounts call KYC `/initiate` with their callback URL → flip `bian.kyc.auto-approve=false`; Payment Order's `ExecutionClient` → HTTP/Kafka against Payment Execution; Payment Execution's `AccountsClient` simulator → real account-SD adapter; account/cheque events → Fraud `/evaluate` consumer
-- Consumer-driven contract tests between the seven deep SDs; runtime-vs-contract checks in CI
+kind + Cilium up; Postgres ×7 hydrated and verified; Strimzi 1.0.0 + 8 flagship topics Ready; one deposit proven end-to-end (API → rules → Postgres row → `transaction.posted` on the real topic, through the mesh). Operating model: start → test → stop (`scripts/platform-stop.sh` / `platform-start.sh`).
+
+### Phase 2d-ii ✅ (loops closed in code, config-activated)
+
+Every flagship choreography seam is now a config flip, not a code change:
+
+- **KYC loop** — accounts gain a `KycGateway`: set `bian.kyc.url` (+ `callback-base-url`) and openings dispatch a real check with a callback URL, staying `PENDING_KYC` until the verdict lands; auto-approve only exists while unconfigured. Delivery failure leaves the account pending, never broken.
+- **Payments loop** — PO's `ExecutionClient` returns the saga outcome **in-band** (PE's API is synchronous): set `bian.payments.execution-url` and orders complete/fail immediately; transport failure keeps the order VALIDATED and retryable. PE's `AccountsClient` HTTP adapter routes legs by prefix (CA-/SA-) to the real account SDs — a 409 (overdraft/blocked/KYC) is exactly the business failure that triggers compensation.
+- **Event consumers** (profile `kafka`) — fraud consumes the account + cheque topics (the flagship feed, live); KYC consumes `kyc.check.requested`; both account SDs consume `kyc.assessment.completed` and `cheque.cleared`. Kafka publishers in all five event-bearing domains. Handlers skip malformed events — feeds never wedge.
+
+### Phase 2e (next)
+
+- Live multi-service rehearsal on the cluster (current-account + KYC + PO + PE simultaneously — needs the 8GB Docker bump or a real cluster)
+- JDBC adapters for the remaining 6 deep domains (current-account is the pattern)
+- Consumer-driven contract tests BETWEEN SDs (per-repo runtime↔contract suite already enforces within-repo)
 - Interest-accrual scheduler; sandbox scenario seeding
 
 ## Phase 3 — Security & delivery
