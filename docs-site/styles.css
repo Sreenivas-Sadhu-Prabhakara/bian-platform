@@ -236,4 +236,15 @@ pre code { background: transparent; border: 0; padding: 0; color: inherit; font-
 .foot { max-width: var(--maxw); margin: 0 auto; padding: 2.6rem clamp(1rem, 4vw, 2.2rem) 3.4rem; border-top: 1px solid var(--line); color: var(--ink-dim); font-size: .85rem; }
 .foot-dim { color: var(--ink-faint); font-size: .76rem; font-family: var(--mono); }
 
+/* faq */
+.faq-intro { color: var(--ink-dim); max-width: 62ch; margin: 0 0 1.4rem; }
+.faq { max-width: 74ch; }
+.faq details { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 8px; margin-bottom: .7rem; }
+.faq summary { list-style: none; cursor: pointer; position: relative; padding: .95rem 2.6rem .95rem 1.1rem; font-weight: 600; font-size: 1.05rem; color: var(--ink); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 1.1rem; top: 50%; transform: translateY(-50%); font-family: var(--mono); color: var(--gold); font-size: 1.3rem; }
+.faq details[open] summary::after { content: "\2013"; }
+.faq .a { padding: 0 1.1rem 1.1rem; color: var(--ink-dim); max-width: 72ch; }
+.faq .a strong { color: var(--ink); }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }

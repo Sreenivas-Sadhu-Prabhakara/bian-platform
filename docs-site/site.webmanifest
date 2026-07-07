@@ -1,0 +1,15 @@
+{
+  "name": "BIAN Platform — 162 banking service domains",
+  "short_name": "BIAN Platform",
+  "description": "A BIAN-aligned core-banking microservice landscape of 162 service domains on a Cilium eBPF mesh.",
+  "start_url": "/bian-platform/",
+  "scope": "/bian-platform/",
+  "display": "standalone",
+  "background_color": "#0c1220",
+  "theme_color": "#0c1220",
+  "icons": [
+    { "src": "/bian-platform/assets/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/bian-platform/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/bian-platform/assets/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" }
+  ]
+}

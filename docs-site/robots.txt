@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sreenivas-sadhu-prabhakara.github.io/bian-platform/sitemap.xml
